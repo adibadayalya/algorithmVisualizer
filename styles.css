@@ -1,0 +1,54 @@
+body{
+    background-color: beige;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.gridSizeSlider, .visSpeedSlider{
+    display: grid;
+}
+#gridSizeVal, #visSpeedVal{
+    border: 1px solid black;
+}
+
+#grid{
+    border: 1px solid black;
+    height: 500px;
+    width: 500px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: 5px 5px 3px 3px;
+}
+#controls{
+    width: 40vw;
+    padding: 50px;
+    margin-right: 10vw;
+    padding-bottom: 12px;
+}
+#wrapper{
+    display: flex;
+    flex-wrap: wrap;
+}
+#dropdownButton{
+    padding-top: 12px;
+}
+#wall, #reset, #dropdown{
+    border: none;
+    background-color: rgb(0, 140, 255);
+    padding: 5px;
+    color: white;
+}
+#wall:hover, #reset:hover, #dropdown:hover{
+    background-color: blue;
+}
+#allButtons{
+    padding-top: 12px;
+}
+.box{
+    border: 1px solid blue;
+}
+
+.box:hover{
+    background-color: lightpink;
+    transform: scale(1.1);
+    transition: 200ms;
+}
