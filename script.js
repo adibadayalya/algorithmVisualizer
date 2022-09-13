@@ -1,14 +1,21 @@
-boxes =  null
-startIndex = null
-endIndex = null
+import {BreadthFirstSearch} from './bfs.js'
+
+let boxes =  undefined
+let startIndex = null
+let endIndex = null
+let wall = []
+let wallElements = []
+let data = new Array(2)
+let SIZE = 0
+let SPEED = 0
 function updateGrid(gridSlider){
     grid.innerHTML = ''
-    wid = grid.offsetWidth - 2;
-    w = wid/gridSlider.value
-    h = w
+    let wid = grid.offsetWidth - 2;
+    let w = wid/gridSlider.value
+    let h = w
     // console.log(wid)
-    for(i = 0; i<gridSlider.value*gridSlider.value;i++){
-        box = document.createElement('div')
+    for(let i = 0; i<gridSlider.value*gridSlider.value;i++){
+        let box = document.createElement('div')
         box.id = i+1;
         box.className = "box"
         // console.log(box)
@@ -17,15 +24,19 @@ function updateGrid(gridSlider){
         grid.appendChild(box)
     }
     boxes = grid.childNodes
+    startIndex = null
+    endIndex = null
     boxes.forEach((child)=>{
         child.ondblclick = ()=> {
             // console.log(child.id)
             if(startIndex===null){
                 startIndex = child.id
+                child.classList.add("startNode")
                 child.style.backgroundColor = "black"
             } else if(endIndex===null){
                 endIndex = child.id
                 child.style.backgroundColor = "black"
+                child.classList.add("destinationNode")
             } else{
                 //Do Nothing
             }
@@ -34,46 +45,122 @@ function updateGrid(gridSlider){
 }
 
 function start() {
-    gridSlider = document.getElementById('gridSize')
+    let gridSlider = document.getElementById('gridSize')
     // console.log(gridSlider.value)
-    gridSizeVal = document.getElementById('gridSizeVal')
-    grid = document.getElementById('grid')
+    let gridSizeVal = document.getElementById('gridSizeVal')
+    let grid = document.getElementById('grid')
     updateGrid(gridSlider)
     gridSizeVal.innerText = gridSlider.value
+    SIZE = gridSlider.value
     gridSlider.onchange = () => (
         // console.log(gridSlider.value),
         gridSizeVal.innerText = gridSlider.value,
+        SIZE = gridSlider.value,
         updateGrid(gridSlider)
     )
-    viSpeedSlider = document.getElementById('visSpeed')
+    let viSpeedSlider = document.getElementById('visSpeed')
     // console.log(viSpeedSlider.value)
-    visSpeedVal = document.getElementById('visSpeedVal')
+    let visSpeedVal = document.getElementById('visSpeedVal')
     visSpeedVal.innerText = viSpeedSlider.value
+    SPEED = viSpeedSlider.value
     viSpeedSlider.onchange = () => (
         // console.log(viSpeedSlider.value),
-        visSpeedVal.innerText = viSpeedSlider.value
+        visSpeedVal.innerText = viSpeedSlider.value,
+        SPEED = viSpeedSlider.value
     )
-    wallButton = document.getElementById('wall')
+    let wallButton = document.getElementById('wall')
+    let dropdown = document.getElementById('dropdown')
     wallButton.onclick = () => {
-        wallNum = Math.floor((gridSlider.value)*(gridSlider.value)*0.3)
+        let wallNum = Math.floor((gridSlider.value)*(gridSlider.value)*0.3)
         // console.log(wallNum)
         while(wallNum>0){
             // console.log(Math.floor(Math.random()*(gridSlider.value*gridSlider.value + 1)))
-            genId = Math.floor(Math.random()*(gridSlider.value*gridSlider.value + 1))
+            let genId = Math.floor(Math.random()*(gridSlider.value*gridSlider.value + 1))
             // console.log(startIndex)
             // console.log(endIndex)
             if(genId == startIndex || genId ==  endIndex){
                 // Do Nothing
             } else {
-                ele =  document.getElementById(genId)
-                if(ele)ele.style.backgroundColor = "lightblue"
+                let ele =  document.getElementById(genId)
+                if(!ele)
+                continue
+                if(ele.classList.contains('wall'))continue
+                ele.classList.add("wall")
+                // if(ele.classList.contains)
+                wallElements.push(ele)
+                wall.push(ele.id)
                 wallNum  = wallNum - 1
             }
         }
+        // wallElements = document.getElementsByClassName('wall')
+        // console.log(wallElements)
     }
-    resetButton = document.getElementById('reset');
+    dropdown.onclick = () => {
+        SPEED = 6-SPEED
+        connectArray(SIZE)
+        console.log(data)
+        BreadthFirstSearch(data,startIndex,endIndex,SPEED)
+    }
+    // dropdown.onclick(BreadthFirstSearch(data,startIndex,endIndex,6-SPEED))
+    let resetButton = document.getElementById('reset');
     resetButton.onclick  = () => {
-        updateGrid(gridSlider)
+        updateGrid(gridSlider),
+        data =  new Array(2)
+    }
+}
+
+function connectArray(SIZE){
+    let uniqueId = 1;
+    for(let i=0;i<SIZE;i++){
+        data[i]  = new Array(2)
+    }
+    // console.log(wall)
+    for(let i=0;i<SIZE;i++){
+        for(let j=0;j<SIZE;j++){
+            if(wall.indexOf(uniqueId.toString())==-1){
+                // console.log(uniqueId)
+                data[i][j]  = new Spot(i,j,false,uniqueId++);
+            } else{
+                // console.log(uniqueId)
+                data[i][j]  = new Spot(i,j,true ,uniqueId++);
+            }
+        }
+    }
+    for (let i = 0; i < SIZE; i++) {
+        for (let j = 0; j < SIZE; j++) {
+          data[i][j].connectFrom(data);
+        }
+      }
+    //   console.log(data)
+}
+
+function Spot(i,j,isWall,id){
+    this.i = i
+    this.j = j
+    this.id = id
+    this.isWall = isWall
+    this.neighbors = []
+    this.path = []
+    this.visited = false
+    this.distance = Infinity
+    this.heuristic = 0
+    this.function = this.distance + this.heuristic
+    this.source = ""
+    this.connectFrom = function(data) {
+        var i  = this.i
+        var j = this.j
+        if(i>0 && !(data[i-1][j].isWall)){
+            this.neighbors.push(data[i-1][j])
+        }
+        if(i<SIZE-1 && !(data[i+1][j].isWall)){
+            this.neighbors.push(data[i+1][j])
+        }
+        if(j>0 && !(data[i][j-1].isWall)){
+            this.neighbors.push(data[i][j-1])
+        }
+        if(j<SIZE-1 && !(data[i][j+1].isWall)){
+            this.neighbors.push(data[i][j+1])
+        }
     }
 }
 

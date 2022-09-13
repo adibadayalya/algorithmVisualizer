@@ -1,5 +1,5 @@
 body{
-    background-color: beige;
+    background-color: whitesmoke;
     font-family: Arial, Helvetica, sans-serif;
 }
 .gridSizeSlider, .visSpeedSlider{
@@ -51,4 +51,16 @@ body{
     background-color: lightpink;
     transform: scale(1.1);
     transition: 200ms;
+}
+.wall{
+    background-color: lightblue;
+}
+.animate{
+    animation: appear 1s;
+    background-color: #f4fd9e;
+}
+@keyframes appear{
+    0%{opacity: 0.5;transform: scale(0); border-radius: 50%;}
+    30%{opacity: 0.75;background-color: #ffeb35; }
+    100%{opacity: 1;background-color: #00ff95;transform: scale(1); border-radius: 0px;}
 }
