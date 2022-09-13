@@ -1,4 +1,6 @@
 import {BreadthFirstSearch} from './bfs.js'
+import {DepthFirstSearch} from './dfs.js'
+
 
 let boxes =  undefined
 let startIndex = null
@@ -39,6 +41,7 @@ function updateGrid(gridSlider){
                 child.classList.add("destinationNode")
             } else{
                 //Do Nothing
+                child.disabled = true;
             }
         }
     })
@@ -69,7 +72,8 @@ function start() {
         SPEED = viSpeedSlider.value
     )
     let wallButton = document.getElementById('wall')
-    let dropdown = document.getElementById('dropdown')
+    let BFSButton = document.getElementById('BFS')
+    let DFSButton = document.getElementById('DFS')
     wallButton.onclick = () => {
         let wallNum = Math.floor((gridSlider.value)*(gridSlider.value)*0.3)
         // console.log(wallNum)
@@ -95,16 +99,23 @@ function start() {
         // wallElements = document.getElementsByClassName('wall')
         // console.log(wallElements)
     }
-    dropdown.onclick = () => {
+    BFSButton.onclick = () => {
         SPEED = 6-SPEED
         connectArray(SIZE)
-        console.log(data)
+        // console.log(data)
         BreadthFirstSearch(data,startIndex,endIndex,SPEED)
     }
-    // dropdown.onclick(BreadthFirstSearch(data,startIndex,endIndex,6-SPEED))
+    DFSButton.onclick = () => {
+        SPEED = 6-SPEED
+        connectArray(SIZE)
+        // console.log(data)
+        DepthFirstSearch(data,startIndex,endIndex,SPEED)
+    }
+    // BFSButton.onclick(BreadthFirstSearch(data,startIndex,endIndex,6-SPEED))
     let resetButton = document.getElementById('reset');
     resetButton.onclick  = () => {
         updateGrid(gridSlider),
+        SPEED = viSpeedSlider.value,
         data =  new Array(2)
     }
 }

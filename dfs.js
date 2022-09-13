@@ -1,19 +1,16 @@
 var Data;
-var Queue = [];
 var visited = [];
+var spotted = false
 
 //Implementing BFS Traversal
-export function BreadthFirstSearch(arrayData,startNode,endNode,SPEED){
+export function DepthFirstSearch(arrayData,startNode,endNode,SPEED){
 
     Data = new Array(2);
     Data = arrayData;
-    Queue = [];
     visited = [];
-    // console.log(Data[0][0]);        
+    //console.log(Data[0][0]);
     let found = false;
-    // console.log(arrayData)
-    // console.log('cis')
-
+    // console.log(startNode)
     for (let i = 0; i < Data.length; i++) {
         for (let j = 0; j < Data.length; j++) {
             if(Data[i][j].id==startNode){
@@ -27,41 +24,38 @@ export function BreadthFirstSearch(arrayData,startNode,endNode,SPEED){
         }
     }
     // console.log(startNode)
-
-    Queue.push(startNode);
-    visited.push(startNode);
-    //console.log(Queue);
-    //console.log(visited);
-
-    while(Queue.length != 0){
-        let x = Queue.shift();
-        //console.log(x);
-        for (let i = 0; i < x.neighbors.length; i++) {
-            if (checkVisitedNode(x.neighbors[i])){
-                Queue.push(x.neighbors[i]);
-                visited.push(x.neighbors[i]);
-            }
+    graphTraversal(startNode,endNode);
+    dfsanimate(visited,endNode,SPEED);
+}
+//Recursion
+function graphTraversal(node,stop){
+    //console.log(node);
+    if(spotted){
+        //pass
+    }else{
+        node.visited = true;
+        // console.log(node);
+        visited.push(node.id);
+        for (let i = 0; i < node.neighbors.length; i++) {
+            if(!node.neighbors[i].visited){
+                graphTraversal(node.neighbors[i]);
+            }  
+        }
+        if(node.id==stop){
+            spotted = true;
         }
     }
-
-    bfsAnimate(visited,endNode,SPEED)
 }
 
-//Check Visited Node
-function checkVisitedNode(node){
-    for (let i = 0; i < visited.length; i++) {
-        if(node == visited[i]){
-            return false;
-        }   
-    }
-    return true;
-}
-
-function bfsAnimate(data, stop, speed){
+//Animate
+function dfsanimate(data,stop,speed){
+    //console.log(data);
+    //console.log(stop);
     let notFound = true;
     for(var i=0;i<data.length;i++){
-        let x = data[i].id
+        let x = data[i]
         let ele = document.getElementById(x)
+        // console.log(x)
         // console.log(data[i])
         if(x!=stop){
             setTimeout(() => {

@@ -1,13 +1,27 @@
 body{
-    background-color: whitesmoke;
+    background-color: white;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+.mainHeading{
+    background-color: gray;
+    padding: 5px;
+    margin-bottom: 1vh;
+    margin-top: 0;
+    position: fixed;
+    height: auto;
+    width: 100%;
+    left: 0;
+    top: 0;
+    color: white;
+}
+
 .gridSizeSlider, .visSpeedSlider{
     display: grid;
 }
-#gridSizeVal, #visSpeedVal{
+/* #gridSizeVal, #visSpeedVal{
     border: 1px solid black;
-}
+} */
 
 #grid{
     border: 1px solid black;
@@ -17,43 +31,52 @@ body{
     display: flex;
     flex-wrap: wrap;
     box-shadow: 5px 5px 3px 3px;
+    margin: auto;
 }
 #controls{
     width: 40vw;
     padding: 50px;
     margin-right: 10vw;
     padding-bottom: 12px;
+    margin: auto;
 }
 #wrapper{
     display: flex;
     flex-wrap: wrap;
+    margin-top: 15vh;
+    align-content: center;
 }
 #dropdownButton{
     padding-top: 12px;
 }
-#wall, #reset, #dropdown{
+.control-button{
     border: none;
     background-color: rgb(0, 140, 255);
     padding: 5px;
     color: white;
 }
-#wall:hover, #reset:hover, #dropdown:hover{
+.control-button:hover{
     background-color: blue;
+    cursor: pointer;
 }
 #allButtons{
     padding-top: 12px;
 }
 .box{
-    border: 1px solid blue;
+    border: 1px solid black;
 }
 
 .box:hover{
-    background-color: lightpink;
+    background-color: lightslategray;
     transform: scale(1.1);
     transition: 200ms;
 }
 .wall{
-    background-color: lightblue;
+    background-color: brown;
+}
+.wall:hover{
+    background-color: brown;
+    transform: scale(1);
 }
 .animate{
     animation: appear 1s;
