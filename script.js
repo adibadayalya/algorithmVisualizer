@@ -10,6 +10,7 @@ let wallElements = []
 let data = new Array(2)
 let SIZE = 0
 let SPEED = 0
+let flag = false
 function updateGrid(gridSlider){
     grid.innerHTML = ''
     let wid = grid.offsetWidth - 2;
@@ -74,8 +75,9 @@ function start() {
     let wallButton = document.getElementById('wall')
     let BFSButton = document.getElementById('BFS')
     let DFSButton = document.getElementById('DFS')
+    let resetButton = document.getElementById('reset')
     wallButton.onclick = () => {
-        let wallNum = Math.floor((gridSlider.value)*(gridSlider.value)*0.3)
+        let wallNum = Math.floor((gridSlider.value)*(gridSlider.value)*0.25)
         // console.log(wallNum)
         while(wallNum>0){
             // console.log(Math.floor(Math.random()*(gridSlider.value*gridSlider.value + 1)))
@@ -100,23 +102,33 @@ function start() {
         // console.log(wallElements)
     }
     BFSButton.onclick = () => {
-        SPEED = 6-SPEED
         connectArray(SIZE)
         // console.log(data)
-        BreadthFirstSearch(data,startIndex,endIndex,SPEED)
+        DFSButton.setAttribute("disabled","disabled")
+        resetButton.setAttribute("disabled","disabled")
+        wallButton.setAttribute("disabled","disabled")
+        BFSButton.setAttribute("disabled","disabled")
+        viSpeedSlider.setAttribute("disabled","disabled")
+        gridSlider.setAttribute("disabled","disabled")
+        BreadthFirstSearch(data,startIndex,endIndex,6-SPEED)
     }
     DFSButton.onclick = () => {
-        SPEED = 6-SPEED
         connectArray(SIZE)
         // console.log(data)
-        DepthFirstSearch(data,startIndex,endIndex,SPEED)
+        DFSButton.setAttribute("disabled","disabled")
+        resetButton.setAttribute("disabled","disabled")
+        wallButton.setAttribute("disabled","disabled")
+        BFSButton.setAttribute("disabled","disabled")
+        viSpeedSlider.setAttribute("disabled","disabled")
+        gridSlider.setAttribute("disabled","disabled")
+        DepthFirstSearch(data,startIndex,endIndex,6-SPEED)
     }
     // BFSButton.onclick(BreadthFirstSearch(data,startIndex,endIndex,6-SPEED))
-    let resetButton = document.getElementById('reset');
     resetButton.onclick  = () => {
         updateGrid(gridSlider),
-        SPEED = viSpeedSlider.value,
-        data =  new Array(2)
+        data =  new Array(2),
+        SPEED = viSpeedSlider.value
+        wall = []
     }
 }
 

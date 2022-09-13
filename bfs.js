@@ -1,7 +1,12 @@
 var Data;
 var Queue = [];
 var visited = [];
-
+let wallButton = document.getElementById('wall')
+let BFSButton = document.getElementById('BFS')
+let DFSButton = document.getElementById('DFS')
+let resetButton = document.getElementById('reset')
+let viSpeedSlider = document.getElementById('visSpeed')
+let gridSlider = document.getElementById('gridSize')
 //Implementing BFS Traversal
 export function BreadthFirstSearch(arrayData,startNode,endNode,SPEED){
 
@@ -70,8 +75,13 @@ function bfsAnimate(data, stop, speed){
         } else{
             notFound = false
             setTimeout(() => {
-                alert("Element Found! \nNode visited after searching "+(i-1)+" nodes.");
-
+                alert("Element Found! \nNode visited after searching "+(i-1)+" nodes.")
+                DFSButton.removeAttribute("disabled")
+                resetButton.removeAttribute("disabled")
+                wallButton.removeAttribute("disabled")
+                BFSButton.removeAttribute("disabled")
+                viSpeedSlider.removeAttribute("disabled")
+                gridSlider.removeAttribute("disabled")
             }, (i+3)*20*speed);
             break
         }
@@ -79,6 +89,12 @@ function bfsAnimate(data, stop, speed){
     if(notFound){
         setTimeout(function(){
             alert("Element Can not be Reached")
+            DFSButton.removeAttribute("disabled")
+            resetButton.removeAttribute("disabled")
+            wallButton.removeAttribute("disabled")
+            BFSButton.removeAttribute("disabled")
+            viSpeedSlider.removeAttribute("disabled")
+            gridSlider.removeAttribute("disabled")
         },(i+3)*20*speed);
     }
 }
