@@ -7,6 +7,7 @@ let DFSButton = document.getElementById('DFS')
 let resetButton = document.getElementById('reset')
 let viSpeedSlider = document.getElementById('visSpeed')
 let gridSlider = document.getElementById('gridSize')
+let DijkstraButton = document.getElementById('Dijkstra')
 
 //Implementing BFS Traversal
 export function DepthFirstSearch(arrayData,startNode,endNode,SPEED){
@@ -77,6 +78,7 @@ function dfsanimate(data,stop,speed){
                 BFSButton.removeAttribute("disabled")
                 viSpeedSlider.removeAttribute("disabled")
                 gridSlider.removeAttribute("disabled")
+                DijkstraButton.removeAttribute("disabled")
             }, (i+3)*20*speed);
             break
         }
@@ -90,6 +92,7 @@ function dfsanimate(data,stop,speed){
             BFSButton.removeAttribute("disabled")
             viSpeedSlider.removeAttribute("disabled")
             gridSlider.removeAttribute("disabled")
+            DijkstraButton.removeAttribute("disabled")
         },(i+3)*20*speed);
     }
     button.disabled = false
