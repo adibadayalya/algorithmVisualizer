@@ -1,5 +1,6 @@
 import {BreadthFirstSearch} from './bfs.js'
 import {DepthFirstSearch} from './dfs.js'
+import {Astar} from './a-star.js'
 
 
 let boxes =  undefined
@@ -10,7 +11,6 @@ let wallElements = []
 let data = new Array(2)
 let SIZE = 0
 let SPEED = 0
-let flag = false
 
 function disableButtonControl(DFSButton,resetButton,wallButton,
     BFSButton,viSpeedSlider,gridSlider,DijkstraButton){
@@ -66,7 +66,7 @@ function start() {
     // }
     // console.log(gridSlider.value)
     let gridSizeVal = document.getElementById('gridSizeVal')
-    let grid = document.getElementById('grid')
+    // let grid = document.getElementById('grid')
     updateGrid(gridSlider)
     gridSizeVal.innerText = gridSlider.value
     SIZE = gridSlider.value
@@ -91,6 +91,7 @@ function start() {
     let DFSButton = document.getElementById('DFS')
     let resetButton = document.getElementById('reset')
     let DijkstraButton = document.getElementById('Dijkstra')
+    let AstarButton = document.getElementById('a-star')
     wallButton.onclick = () => {
         let wallNum = Math.floor((gridSlider.value)*(gridSlider.value)*0.25)
         // console.log(wallNum)
@@ -121,21 +122,28 @@ function start() {
         // console.log(data)
         disableButtonControl(DFSButton,resetButton,wallButton,
             BFSButton,viSpeedSlider,gridSlider,DijkstraButton)
-        BreadthFirstSearch(data,startIndex,endIndex,6-SPEED)
+            BreadthFirstSearch(data,startIndex,endIndex,6-SPEED)
     }
     DFSButton.onclick = () => {
         connectArray(SIZE)
         // console.log(data)
         disableButtonControl(DFSButton,resetButton,wallButton,
             BFSButton,viSpeedSlider,gridSlider,DijkstraButton)
-        DepthFirstSearch(data,startIndex,endIndex,6-SPEED)
+            DepthFirstSearch(data,startIndex,endIndex,6-SPEED)
     }
     DijkstraButton.onclick = () => {
         connectArray(SIZE)
         // console.log(data)
         disableButtonControl(DFSButton,resetButton,wallButton,
             BFSButton,viSpeedSlider,gridSlider,DijkstraButton)
-        BreadthFirstSearch(data,startIndex,endIndex,6-SPEED)
+            BreadthFirstSearch(data,startIndex,endIndex,6-SPEED)
+    }
+    AstarButton.onclick = () =>{
+        connectArray(SIZE)
+        // console.log(data)
+        disableButtonControl(DFSButton,resetButton,wallButton,
+            BFSButton,viSpeedSlider,gridSlider,DijkstraButton)
+            Astar(data,startIndex,endIndex,6-SPEED)
     }
     // BFSButton.onclick(BreadthFirstSearch(data,startIndex,endIndex,6-SPEED))
     resetButton.onclick  = () => {
