@@ -7,6 +7,7 @@ let DFSButton = document.getElementById('DFS')
 let resetButton = document.getElementById('reset')
 let viSpeedSlider = document.getElementById('visSpeed')
 let gridSlider = document.getElementById('gridSize')
+let DijkstraButton = document.getElementById('Dijkstra')
 //Implementing BFS Traversal
 export function BreadthFirstSearch(arrayData,startNode,endNode,SPEED){
 
@@ -23,6 +24,7 @@ export function BreadthFirstSearch(arrayData,startNode,endNode,SPEED){
         for (let j = 0; j < Data.length; j++) {
             if(Data[i][j].id==startNode){
                 startNode = Data[i][j];
+                startNode.source = undefined
                 found = true;
                 break;
             }
@@ -43,12 +45,12 @@ export function BreadthFirstSearch(arrayData,startNode,endNode,SPEED){
         //console.log(x);
         for (let i = 0; i < x.neighbors.length; i++) {
             if (checkVisitedNode(x.neighbors[i])){
+                x.neighbors[i].source = x
                 Queue.push(x.neighbors[i]);
                 visited.push(x.neighbors[i]);
             }
         }
     }
-
     bfsAnimate(visited,endNode,SPEED)
 }
 
@@ -75,13 +77,20 @@ function bfsAnimate(data, stop, speed){
         } else{
             notFound = false
             setTimeout(() => {
-                alert("Element Found! \nNode visited after searching "+(i-1)+" nodes.")
                 DFSButton.removeAttribute("disabled")
                 resetButton.removeAttribute("disabled")
                 wallButton.removeAttribute("disabled")
                 BFSButton.removeAttribute("disabled")
                 viSpeedSlider.removeAttribute("disabled")
                 gridSlider.removeAttribute("disabled")
+                DijkstraButton.removeAttribute("disabled")
+                let v = data[i]
+                while(v!=undefined){
+                    let element = document.getElementById(v.id)
+                    element.classList.add('path')
+                    v = v.source
+                }
+                alert("Element Found! \nNode visited after searching "+(i-1)+" nodes.")
             }, (i+3)*20*speed);
             break
         }
@@ -95,6 +104,7 @@ function bfsAnimate(data, stop, speed){
             BFSButton.removeAttribute("disabled")
             viSpeedSlider.removeAttribute("disabled")
             gridSlider.removeAttribute("disabled")
+            DijkstraButton.removeAttribute("disabled")
         },(i+3)*20*speed);
     }
 }

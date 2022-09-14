@@ -11,11 +11,22 @@ let data = new Array(2)
 let SIZE = 0
 let SPEED = 0
 let flag = false
+
+function disableButtonControl(DFSButton,resetButton,wallButton,
+    BFSButton,viSpeedSlider,gridSlider,DijkstraButton){
+        DFSButton.setAttribute("disabled","disabled")
+        resetButton.setAttribute("disabled","disabled")
+        wallButton.setAttribute("disabled","disabled")
+        BFSButton.setAttribute("disabled","disabled")
+        viSpeedSlider.setAttribute("disabled","disabled")
+        gridSlider.setAttribute("disabled","disabled")
+        DijkstraButton.setAttribute("disabled","disabled")
+}
 function updateGrid(gridSlider){
     grid.innerHTML = ''
     let wid = grid.offsetWidth - 2;
     let w = wid/gridSlider.value
-    let h = w
+    // let h = w
     // console.log(wid)
     for(let i = 0; i<gridSlider.value*gridSlider.value;i++){
         let box = document.createElement('div')
@@ -35,14 +46,13 @@ function updateGrid(gridSlider){
             if(startIndex===null){
                 startIndex = child.id
                 child.classList.add("startNode")
-                child.style.backgroundColor = "black"
+                child.style.backgroundColor = "blue"
             } else if(endIndex===null){
                 endIndex = child.id
-                child.style.backgroundColor = "black"
+                child.style.backgroundColor = "teal"
                 child.classList.add("destinationNode")
             } else{
-                //Do Nothing
-                child.disabled = true;
+                //Do Nothinge;
             }
         }
     })
@@ -50,6 +60,10 @@ function updateGrid(gridSlider){
 
 function start() {
     let gridSlider = document.getElementById('gridSize')
+    // let testButton = document.getElementById('test')
+    // testButton.onclick = () =>{
+    //     console.log('Clicked')
+    // }
     // console.log(gridSlider.value)
     let gridSizeVal = document.getElementById('gridSizeVal')
     let grid = document.getElementById('grid')
@@ -76,6 +90,7 @@ function start() {
     let BFSButton = document.getElementById('BFS')
     let DFSButton = document.getElementById('DFS')
     let resetButton = document.getElementById('reset')
+    let DijkstraButton = document.getElementById('Dijkstra')
     wallButton.onclick = () => {
         let wallNum = Math.floor((gridSlider.value)*(gridSlider.value)*0.25)
         // console.log(wallNum)
@@ -104,24 +119,23 @@ function start() {
     BFSButton.onclick = () => {
         connectArray(SIZE)
         // console.log(data)
-        DFSButton.setAttribute("disabled","disabled")
-        resetButton.setAttribute("disabled","disabled")
-        wallButton.setAttribute("disabled","disabled")
-        BFSButton.setAttribute("disabled","disabled")
-        viSpeedSlider.setAttribute("disabled","disabled")
-        gridSlider.setAttribute("disabled","disabled")
+        disableButtonControl(DFSButton,resetButton,wallButton,
+            BFSButton,viSpeedSlider,gridSlider,DijkstraButton)
         BreadthFirstSearch(data,startIndex,endIndex,6-SPEED)
     }
     DFSButton.onclick = () => {
         connectArray(SIZE)
         // console.log(data)
-        DFSButton.setAttribute("disabled","disabled")
-        resetButton.setAttribute("disabled","disabled")
-        wallButton.setAttribute("disabled","disabled")
-        BFSButton.setAttribute("disabled","disabled")
-        viSpeedSlider.setAttribute("disabled","disabled")
-        gridSlider.setAttribute("disabled","disabled")
+        disableButtonControl(DFSButton,resetButton,wallButton,
+            BFSButton,viSpeedSlider,gridSlider,DijkstraButton)
         DepthFirstSearch(data,startIndex,endIndex,6-SPEED)
+    }
+    DijkstraButton.onclick = () => {
+        connectArray(SIZE)
+        // console.log(data)
+        disableButtonControl(DFSButton,resetButton,wallButton,
+            BFSButton,viSpeedSlider,gridSlider,DijkstraButton)
+        BreadthFirstSearch(data,startIndex,endIndex,6-SPEED)
     }
     // BFSButton.onclick(BreadthFirstSearch(data,startIndex,endIndex,6-SPEED))
     resetButton.onclick  = () => {
@@ -133,6 +147,7 @@ function start() {
 }
 
 function connectArray(SIZE){
+    //preprocessing the data
     let uniqueId = 1;
     for(let i=0;i<SIZE;i++){
         data[i]  = new Array(2)

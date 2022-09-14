@@ -87,3 +87,9 @@ body{
     30%{opacity: 0.75;background-color: #ffeb35; }
     100%{opacity: 1;background-color: #00ff95;transform: scale(1); border-radius: 0px;}
 }
+
+.path{
+    animation-timing-function: ease;
+    transition: 1s;
+    background-color: blueviolet;
+}
